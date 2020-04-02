@@ -16,7 +16,7 @@ contract StandardToken is ERC20, ERC223
 
 	event Burn(address indexed burner, uint256 value);
 
-	function transfer(address _to, uint256 _value) public override returns (bool)
+	function transfer(address _to, uint256 _value) external override returns (bool)
 	{
 		require(_to != address(0));
 		require(_value <= balances[msg.sender]);
@@ -31,7 +31,7 @@ contract StandardToken is ERC20, ERC223
 		return balances[_owner];
 	}
 
-	function transferFrom(address _from, address _to, uint256 _value) public override returns (bool)
+	function transferFrom(address _from, address _to, uint256 _value) external override returns (bool)
 	{
 		require(_to != address(0));
 		require(_value <= balances[_from]);
@@ -44,7 +44,7 @@ contract StandardToken is ERC20, ERC223
 		return true;
 	}
 
-	function approve(address _spender, uint256 _value) public override returns (bool)
+	function approve(address _spender, uint256 _value) external override returns (bool)
 	{
 		allowed[msg.sender][_spender] = _value;
 		emit Approval(msg.sender, _spender, _value);
@@ -56,14 +56,14 @@ contract StandardToken is ERC20, ERC223
 		return allowed[_owner][_spender];
 	}
 
-	function increaseApproval(address _spender, uint256 _addedValue) public returns (bool)
+	function increaseApproval(address _spender, uint256 _addedValue) external returns (bool)
 	{
 		allowed[msg.sender][_spender] = allowed[msg.sender][_spender].add(_addedValue);
 		emit Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
 		return true;
 	}
 
-	function decreaseApproval(address _spender, uint256 _subtractedValue) public returns (bool)
+	function decreaseApproval(address _spender, uint256 _subtractedValue) external returns (bool)
 	{
 		uint256 oldValue = allowed[msg.sender][_spender];
 		if (_subtractedValue > oldValue)
@@ -78,7 +78,7 @@ contract StandardToken is ERC20, ERC223
 		return true;
 	}
 
-	function transfer(address _to, uint256 _value, bytes memory _data) public override
+	function transfer(address _to, uint256 _value, bytes calldata _data) external override
 	{
 		require(_value > 0 );
 		if(isContract(_to))
